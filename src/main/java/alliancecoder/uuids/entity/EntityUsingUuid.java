@@ -1,39 +1,41 @@
-package alliancecoder.sequences.entity;
+package alliancecoder.uuids.entity;
 
-import java.beans.Transient;
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import alliancecoder.validations.ValidEntity;
 
 @Entity
-@Table(name = "entities_using_long", indexes = {
-    @Index(name = "uk_unique_other_by_long", columnList = "other_unique_item", unique = true)
+@Table(name = "entities_using_uuid", indexes = {
+    @Index(name = "uk_unique_other_by_uuid", columnList = "other_unique_item", unique = true)
 })
 @NamedQueries({
-    @NamedQuery(name = EntityUsingLong.getAll, query = "SELECT l FROM EntityUsingLong l")
+    @NamedQuery(name = EntityUsingUuid.getAll, query = "SELECT u FROM EntityUsingUuid u")
 })
-public class EntityUsingLong implements Serializable, ValidEntity {
+public class EntityUsingUuid implements Serializable, ValidEntity {
 
 	private static final long serialVersionUID = 1L;
 
-    private static final String PREFIX = "sequences.entity.";
+    private static final String PREFIX = "uuids.entity.";
     public static final String getAll = PREFIX + "getAll";
 
-	@Column(name = "long_as_id")
+    // Performance is better with binary - but has issues
+    // how do we manually insert data
+    // presentation should utilize "friendly output"
+	@Column(name = "uuid_as_id")
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "long_integer_seq")
-	protected Long longAsId;
+	//@Type(type = "uuid-char")
+	protected UUID uuidAsId;
 
     @Column(name = "other_unique_item")
     private Long otherUniqueItem;
@@ -41,12 +43,22 @@ public class EntityUsingLong implements Serializable, ValidEntity {
     @Column(name = "non_unique_text", nullable = false)
     private String nonUniqueText;
 
-    public Long getLongAsId() {
-        return longAsId;
+    public EntityUsingUuid() {
+        this.uuidAsId = UUID.randomUUID();
     }
 
-    public void setLongAsId(Long longAsId) {
-        this.longAsId = longAsId;
+    public EntityUsingUuid(Long otherUniqueItem, String nonUniqueText) {
+        this.uuidAsId = UUID.randomUUID();
+        this.otherUniqueItem = otherUniqueItem;
+        this.nonUniqueText = nonUniqueText;
+    }
+
+    public UUID getUuidAsId() {
+        return uuidAsId;
+    }
+
+    public void setUuidAsId(UUID uuidAsId) {
+        this.uuidAsId = uuidAsId;
     }
 
     public Long getOtherUniqueItem() {
@@ -69,7 +81,7 @@ public class EntityUsingLong implements Serializable, ValidEntity {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((longAsId == null) ? 0 : longAsId.hashCode());
+        result = prime * result + ((uuidAsId == null) ? 0 : uuidAsId.hashCode());
         return result;
     }
 
@@ -81,11 +93,11 @@ public class EntityUsingLong implements Serializable, ValidEntity {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        EntityUsingLong other = (EntityUsingLong) obj;
-        if (longAsId == null) {
-            if (other.longAsId != null)
+        EntityUsingUuid other = (EntityUsingUuid) obj;
+        if (uuidAsId == null) {
+            if (other.uuidAsId != null)
                 return false;
-        } else if (!longAsId.equals(other.longAsId))
+        } else if (!uuidAsId.equals(other.uuidAsId))
             return false;
         return true;
     }
