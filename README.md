@@ -1,7 +1,27 @@
 # JPA-ID-REPRODUCER ISSUES
 [Cockroach Labs Ticket](https://support.cockroachlabs.com/hc/en-us/requests/10751)
 
-## Letting Hibernate create the SCHEMA (dev.quarkus.hibernate-orm.database.generation=drop-and-create)
+# HOW TO REPRODUCE
+_Determine what database you would like to test against and adjust application.properties_
+RUN: `mvn compile quarkus:dev`
+- [USE API TOOLS or Your Own](http://localhost:8080/1/swagger-ui)
+- GET: /sequences returns 4 pre-inserted records
+- POST: /sequences with:
+```json
+{
+  "nonUniqueText": "FIFTH RECORD",
+  "otherUniqueItem": 5
+}
+```
+- NOTE RESPONSE HEADERS:
+>  access-control-allow-credentials: false
+>  access-control-allow-origin: http://localhost:8080
+>  content-length: 0
+>  location: http://localhost:8080/sequences/-44
+
+- GET ​/migrations​/reset to run flyway.clean and flyway.migrate
+
+## Letting Hibernate create the SCHEMA
 IDs work as expected against all db (H2, PostgreSQL, CockroachDB)
 
 ## Using Flyway to Create the SCHEMA causes
@@ -39,6 +59,7 @@ IDs work as expected against all db (H2, PostgreSQL, CockroachDB)
 >         (?, ?, ?)
 
 ## Generated SQL for Sequence
+_see flyway migration for schema_
 show create table long_integer_seq;
      table_name    |                                           create_statement
 -------------------+-------------------------------------------------------------------------------------------------------
