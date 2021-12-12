@@ -1,65 +1,54 @@
-# jpa-id-reproducer Project
+# JPA-ID-REPRODUCER ISSUES
+[Cockroach Labs Ticket](https://support.cockroachlabs.com/hc/en-us/requests/10751)
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Letting Hibernate create the SCHEMA (dev.quarkus.hibernate-orm.database.generation=drop-and-create)
+IDs work as expected against all db (H2, PostgreSQL, CockroachDB)
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+## Using Flyway to Create the SCHEMA causes
+2021-12-12 17:09:21,524 DEBUG [org.hib.res.jdb.int.LogicalConnectionManagedImpl] (executor-thread-0) `hibernate.connection.provider_disables_autocommit` was enabled.  This setting should only be enabled when you are certain that the Connections given to Hibernate by the ConnectionProvider have auto-commit disabled.  Enabling this setting when the Connections do not have auto-commit disabled will lead to Hibernate executing SQL operations outside of any JDBC/SQL transaction.
+2021-12-12 17:09:21,525 DEBUG [org.hib.res.tra.bac.jta.int.JtaTransactionCoordinatorImpl] (executor-thread-0) Hibernate RegisteredSynchronization successfully registered with JTA platform
+2021-12-12 17:09:21,526 DEBUG [org.hib.eve.int.EntityCopyObserverFactoryInitiator] (executor-thread-0) Configured EntityCopyObserver strategy: disallow
+2021-12-12 17:09:21,527 DEBUG [org.hib.SQL] (executor-thread-0) 
+    select
+        nextval ('long_integer_seq')
+Hibernate:
+    select
+        nextval ('long_integer_seq')
+2021-12-12 17:09:21,645 DEBUG [org.hib.id.enh.SequenceStructure] (executor-thread-0) Sequence value obtained: 5
+2021-12-12 17:09:21,646 DEBUG [org.hib.res.jdb.int.ResourceRegistryStandardImpl] (executor-thread-0) HHH000387: ResultSet's statement was not registered
+### 2021-12-12 17:09:21,647 DEBUG [org.hib.eve.int.AbstractSaveEventListener] (executor-thread-0) Generated identifier: -44, using strategy: org.hibernate.id.enhanced.SequenceStyleGenerator
+2021-12-12 17:09:21,649 DEBUG [org.hib.eve.int.AbstractFlushingEventListener] (executor-thread-0) Processing flush-time cascades
+2021-12-12 17:09:21,650 DEBUG [org.hib.eve.int.AbstractFlushingEventListener] (executor-thread-0) Dirty checking collections
+2021-12-12 17:09:21,650 DEBUG [org.hib.eve.int.AbstractFlushingEventListener] (executor-thread-0) Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
+2021-12-12 17:09:21,651 DEBUG [org.hib.eve.int.AbstractFlushingEventListener] (executor-thread-0) Flushed: 0 (re)creations, 0 updates, 0 removals to 0 collections
+2021-12-12 17:09:21,652 DEBUG [org.hib.int.uti.EntityPrinter] (executor-thread-0) Listing entities:
+2021-12-12 17:09:21,653 DEBUG [org.hib.int.uti.EntityPrinter] (executor-thread-0) alliancecoder.sequences.entity.EntityUsingLong{nonUniqueText=FIFTH RECORD, longAsId=-44, otherUniqueItem=5}
+2021-12-12 17:09:21,654 DEBUG [org.hib.SQL] (executor-thread-0) 
+    insert 
+    into
+        entities_using_long
+        (non_unique_text, other_unique_item, long_as_id)
+    values
+        (?, ?, ?)
+Hibernate: 
+    insert
+    into
+        entities_using_long
+        (non_unique_text, other_unique_item, long_as_id)
+    values
+        (?, ?, ?)
 
-## Running the application in dev mode
+## Generated SQL for Sequence
+show create table long_integer_seq;
+     table_name    |                                           create_statement
+-------------------+-------------------------------------------------------------------------------------------------------
+  long_integer_seq | CREATE SEQUENCE public.long_integer_seq MINVALUE 1 MAXVALUE 9223372036854775807 INCREMENT 50 START 5
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
-
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
-
-## Packaging and running the application
-
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Pnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/jpa-id-reproducer-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Provided Code
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
+# RELEVANT LINKS
 [Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
-
 [UUID JPA Implementation Patterns](https://dzone.com/articles/jpa-implementation-patterns-6)
-
-
 [CockroachDB Forum with Underlying Issue](https://forum.cockroachlabs.com/t/hibernate-sequence-generator-returns-negative-number-and-ignore-unique-rowid/1885)
-#### RELEVANT RESPONSE
+## RELEVANT RESPONSE
 knz
 Raphael 'kena' PossRoacher
 Aug '18
