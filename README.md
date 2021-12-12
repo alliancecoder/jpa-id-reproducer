@@ -21,6 +21,16 @@ RUN: `mvn compile quarkus:dev`
 
 - GET ​/migrations​/reset to run flyway.clean and flyway.migrate
 
+## ALL TESTS PASSING
+_read the import.sql for sample test data and concers with strategies_
+### Using UUID as Identity issues
+- I currently have 6 Services with 20+ relations using SEQUENCE
+- I require to use the best ID Strategy
+- UUID is annoying, I have to manually generate IDs to use for all entities (potentially many hundreds)
+- The below ID can be used for both H2 and PostgreSQL/CockroachDB. However, IDs are not easily referencable.
+- 5745a8efdfba43189a1ca7de656d5e70 -> 5745a8ef-dfba-4318-9a1c-a7de656d5e70 in DB & JSON Output (all the dash placement could cause typos)
+- Creating Foreign Keys could be a struggle
+
 ## Letting Hibernate create the SCHEMA
 IDs work as expected against all db (H2, PostgreSQL, CockroachDB)
 
