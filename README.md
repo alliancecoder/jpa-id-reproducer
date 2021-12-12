@@ -61,8 +61,8 @@ show create table long_integer_seq;
 >     we strongly recommend against using sequences to generate row IDs, because they cause contention and limit scalability. We recommend using UUID keys instead. INT DEFAULT unique_rowid() is second best.
 
 >     Please consult the following two FAQ entries for more details:
-         [How do I auto-generate unique row IDs in CockroachDB? 33](https://www.cockroachlabs.com/docs/stable/sql-faqs.html#how-do-i-auto-generate-unique-row-ids-in-cockroachdb)
-         [What are the differences between UUID, sequences, and unique_rowid()? 29](https://www.cockroachlabs.com/docs/stable/sql-faqs.html#what-are-the-differences-between-uuid-sequences-and-unique_rowid)
+- [How do I auto-generate unique row IDs in CockroachDB? 33](https://www.cockroachlabs.com/docs/stable/sql-faqs.html#how-do-i-auto-generate-unique-row-ids-in-cockroachdb)
+- [What are the differences between UUID, sequences, and unique_rowid()? 29](https://www.cockroachlabs.com/docs/stable/sql-faqs.html#what-are-the-differences-between-uuid-sequences-and-unique_rowid)
 
 >     regarding your issues when you tried to use sequences.
 >         When you use @Id in Hibernate with CockroachDB, this does not automatically create a sequence. This is different from PostgreSQL. As you can understand from my answer above, this difference comes from the fact that we recommend using other key generation instead. This is why the @GeneratedValue spec cannot work as-is.
