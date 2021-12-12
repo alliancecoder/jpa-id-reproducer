@@ -45,9 +45,8 @@ show create table long_integer_seq;
   long_integer_seq | CREATE SEQUENCE public.long_integer_seq MINVALUE 1 MAXVALUE 9223372036854775807 INCREMENT 50 START 5
 
 # RELEVANT LINKS
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
-[UUID JPA Implementation Patterns](https://dzone.com/articles/jpa-implementation-patterns-6)
-[CockroachDB Forum with Underlying Issue](https://forum.cockroachlabs.com/t/hibernate-sequence-generator-returns-negative-number-and-ignore-unique-rowid/1885)
+- [UUID JPA Implementation Patterns](https://dzone.com/articles/jpa-implementation-patterns-6)
+- [CockroachDB Forum with Underlying Issue](https://forum.cockroachlabs.com/t/hibernate-sequence-generator-returns-negative-number-and-ignore-unique-rowid/1885)
 #### RELEVANT RESPONSE
 > knz
 > Raphael 'kena' PossRoacher
