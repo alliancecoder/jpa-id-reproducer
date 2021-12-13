@@ -37,7 +37,7 @@ public class EntityUsingLong implements Serializable, ValidEntity {
     @SequenceGenerator(
            name = "sequence-corrected-definition",
            sequenceName = "long_integer_seq",
-           initialValue = 5,
+           initialValue = 54,
            allocationSize = 50
    )
 	protected Long longAsId;
