@@ -81,7 +81,7 @@ public class UuidEntityManager {
         UUID id = UUID.fromString(uuid);
 		try {
 			EntityUsingUuid reference = this.em.getReference(EntityUsingUuid.class, id);
-			this.em.remove(this.em.merge(reference));
+			this.em.remove(reference);
 			return OperationResult.SUCCESS;
 		} catch (PersistenceException pEx) {
 			LOGGER.log(Level.DEBUG, pEx.toString(), pEx);

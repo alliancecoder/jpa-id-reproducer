@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import alliancecoder.validations.ValidEntity;
@@ -33,6 +34,13 @@ public class EntityUsingLong implements Serializable, ValidEntity {
 	@Column(name = "long_as_id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "long_integer_seq")
+    @SequenceGenerator(
+           name = "sequence-corrected-definition",
+           sequenceName = "long_integer_seq",
+           initialValue = 5,
+           allocationSize = 50
+   )
+
 	protected Long longAsId;
 
     @Column(name = "other_unique_item")

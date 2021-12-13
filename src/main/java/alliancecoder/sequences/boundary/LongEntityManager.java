@@ -24,7 +24,18 @@ public class LongEntityManager {
 
     @Transactional
     public EntityUsingLong save(EntityUsingLong longEntity) {
-        return this.em.merge(longEntity);
+        try {
+            if (longEntity.getLongAsId() != null && longEntity.getLongAsId() > 0L) {
+                return this.em.merge(longEntity);
+            } else {
+                this.em.persist(longEntity);
+                return longEntity;
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.DEBUG, e.toString(), e);
+            return null;
+        }
+
     }
 
     public EntityUsingLong findById(Long longAsId) {
@@ -44,7 +55,7 @@ public class LongEntityManager {
 	public OperationResult delete(Long longAsId) {
 		try {
 			EntityUsingLong reference = this.em.getReference(EntityUsingLong.class, longAsId);
-			this.em.remove(this.em.merge(reference));
+			this.em.remove(reference);
 			return OperationResult.SUCCESS;
 		} catch (PersistenceException pEx) {
 			LOGGER.log(Level.DEBUG, pEx.toString(), pEx);
