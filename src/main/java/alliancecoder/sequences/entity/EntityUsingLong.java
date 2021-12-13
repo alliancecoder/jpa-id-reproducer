@@ -40,7 +40,6 @@ public class EntityUsingLong implements Serializable, ValidEntity {
            initialValue = 5,
            allocationSize = 50
    )
-
 	protected Long longAsId;
 
     @Column(name = "other_unique_item")
