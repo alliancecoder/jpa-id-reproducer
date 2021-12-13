@@ -44,9 +44,11 @@ IDs work as expected against all db (H2, PostgreSQL, CockroachDB)
 > Hibernate:
 >    select
 >        nextval ('long_integer_seq')
-> 2021-12-12 17:09:21,645 DEBUG [org.hib.id.enh.SequenceStructure] (executor-thread-0) Sequence value obtained: 5
-> 2021-12-12 17:09:21,646 DEBUG [org.hib.res.jdb.int.ResourceRegistryStandardImpl] (executor-thread-0) HHH000387: ResultSet's statement was not registered
-### 2021-12-12 17:09:21,647 DEBUG [org.hib.eve.int.AbstractSaveEventListener] (executor-thread-0) Generated identifier: -44, using strategy: org.hibernate.id.enhanced.SequenceStyleGenerator
+
+- 2021-12-12 17:09:21,645 DEBUG [org.hib.id.enh.SequenceStructure] (executor-thread-0) Sequence value obtained: 5
+- 2021-12-12 17:09:21,646 DEBUG [org.hib.res.jdb.int.ResourceRegistryStandardImpl] (executor-thread-0) HHH000387: ResultSet's statement was not registered
+- 2021-12-12 17:09:21,647 DEBUG [org.hib.eve.int.AbstractSaveEventListener] (executor-thread-0) Generated identifier: -44, using strategy: org.hibernate.id.enhanced.SequenceStyleGenerator
+
 > 2021-12-12 17:09:21,649 DEBUG [org.hib.eve.int.AbstractFlushingEventListener] (executor-thread-0) Processing flush-time cascades
 > 2021-12-12 17:09:21,650 DEBUG [org.hib.eve.int.AbstractFlushingEventListener] (executor-thread-0) Dirty checking collections
 > 2021-12-12 17:09:21,650 DEBUG [org.hib.eve.int.AbstractFlushingEventListener] (executor-thread-0) Flushed: 1 insertions, 0 updates, 0 deletions to 1 objects
