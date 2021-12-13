@@ -69,7 +69,8 @@ IDs work as expected against all db (H2, PostgreSQL, CockroachDB)
 >         (?, ?, ?)
 
 ## Generated SQL for Sequence
-_see flyway migration for schema_
+_see flyway migration for full schema_
+
 show create table long_integer_seq;
      table_name    |                                           create_statement
 -------------------+-------------------------------------------------------------------------------------------------------
