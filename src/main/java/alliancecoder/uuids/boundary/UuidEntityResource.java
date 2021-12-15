@@ -59,27 +59,10 @@ public class UuidEntityResource {
 		}
 	}
 
-    // @POST
-	// @Path("/build")
-    // public Response build() {
-    //     try {
-    //         OperationResult result = this.manager.buildSampleData();
-    //         if (result == OperationResult.SUCCESS) {
-	// 		return Response.ok().build();
-    //     } else {
-	// 		return Response.status(Response.Status.BAD_REQUEST).build();
-    //     }
-    //     } catch (Exception ex) {
-	// 		LOGGER.log(Level.DEBUG, ex.toString(), ex);
-	// 		return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-	// 				.header("error", "An unknown error has occured, please contact support.").build();
-    //     }
-    // }
-
 	@GET
 	@Path("{uuid}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response find(@PathParam("uuid") String uuid) {
+	public Response find(@PathParam("uuid") UUID uuid) {
 		EntityUsingUuid uuidEntity = this.manager.findById(uuid);
 		if (uuidEntity != null) {
 			return Response.ok(uuidEntity).build();
@@ -103,8 +86,8 @@ public class UuidEntityResource {
 	@Path("{uuid}")
 	@Consumes({ MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response update(@PathParam("uuid") String uuid, EntityUsingUuid uuidEntity) {
-		if (!uuidEntity.isValid() || !uuidEntity.getUuidAsId().equals(UUID.fromString(uuid))) {
+	public Response update(@PathParam("uuid") UUID uuid, EntityUsingUuid uuidEntity) {
+		if (!uuidEntity.isValid() || !uuidEntity.getUuidAsId().equals(uuid)) {
 			throw new EntityNotValidException(
 					"The Entity is not properly formatted. Please refer to the API documentation.");
 		}
@@ -131,7 +114,7 @@ public class UuidEntityResource {
 
 	@DELETE
 	@Path("{uuid}")
-	public Response delete(@PathParam("uuid") String uuid) {
+	public Response delete(@PathParam("uuid") UUID uuid) {
 		try {
 			EntityUsingUuid uuidEntityToDelete = this.manager.findById(uuid);
 			if (uuidEntityToDelete == null) {

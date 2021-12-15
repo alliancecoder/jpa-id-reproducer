@@ -121,7 +121,8 @@ public class UuidEntityResourceIT {
     @Test
     @Order(10)
     public void invalid_delete_returns_204() {
-        given().when().delete("/42").then().statusCode(is(204));
+        UUID invalidId = UUID.randomUUID();
+        given().when().delete("/" + invalidId).then().statusCode(is(204));
     }
     
 }

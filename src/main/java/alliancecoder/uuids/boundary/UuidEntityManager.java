@@ -38,29 +38,9 @@ public class UuidEntityManager {
         }
     }
 
-    // @Transactional
-    // public OperationResult buildSampleData() {
-    //     try {
-    //         EntityUsingUuid iti;
-    //         iti = new EntityUsingUuid(1L, "FIRST RECORD");
-    //         this.save(iti);
-    //         iti = new EntityUsingUuid(2L, "SECOND RECORD");
-    //         this.save(iti);
-    //         iti = new EntityUsingUuid(3L, "THIRD RECORD");
-    //         this.save(iti);
-    //         iti = new EntityUsingUuid(4L, "FOURTH RECORD");
-    //         this.save(iti);
-    //         return OperationResult.SUCCESS;
-    //     } catch (Exception ex) {
-    //         LOGGER.log(Level.DEBUG, ex.toString(), ex);
-    //         return OperationResult.FAILURE;
-    //     }
-    // }
-
-    public EntityUsingUuid findById(String uuid) {
+    public EntityUsingUuid findById(UUID uuid) {
         try {
-        UUID id = UUID.fromString(uuid);
-        return this.em.find(EntityUsingUuid.class, id);
+        return this.em.find(EntityUsingUuid.class, uuid);
         } catch (Exception ex) {
             LOGGER.log(Level.DEBUG, ex.toString(), ex);
             return null;
@@ -77,10 +57,9 @@ public class UuidEntityManager {
     }
 
 	@Transactional
-	public OperationResult delete(String uuid) {
-        UUID id = UUID.fromString(uuid);
+	public OperationResult delete(UUID uuid) {
 		try {
-			EntityUsingUuid reference = this.em.getReference(EntityUsingUuid.class, id);
+			EntityUsingUuid reference = this.em.getReference(EntityUsingUuid.class, uuid);
 			this.em.remove(reference);
 			return OperationResult.SUCCESS;
 		} catch (PersistenceException pEx) {
